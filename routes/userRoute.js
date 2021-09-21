@@ -32,10 +32,24 @@ router.post('/signin', (req, res) => {
       if (user) {
         const decrypted = bcrypt.compareSync(password, user.hash_password);
         if (!decrypted) return res.status(400).json({ message: 'Invalid password' });
+        const {
+          firstName, lastName, role, fullName,
+        } = user;
         const token = jwt.sign({ _id: user._id }, 'HELLO', { expiresIn: '24h' });
-        return res.status(201).json({ message: 'Logged in successfully', token });
+        return res.status(201).json({
+          message: 'Logged in successfully',
+          details: {
+            firstName, lastName, email, role, fullName,
+          },
+          token,
+        });
       }
     });
 });
 
+router.get('/all', (req, res) => {
+  User.find()
+    .then((user) => res.status(200).json(user))
+    .catch((err) => console.log(err));
+});
 module.exports = router;
