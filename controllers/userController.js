@@ -64,6 +64,16 @@ class UserController {
       })
       .catch((err) => console.log(err));
   }
+
+  static async Delete(req, res) {
+    const _id = req.params.id;
+    User.findByIdAndRemove(_id)
+      .then((prop) => {
+        if (!prop) res.status(404).json({ message: 'No such user' });
+        return res.status(201).json({ message: 'User account deleted successfully', prop });
+      })
+      .catch((err) => console.log(err));
+  }
 }
 
 module.exports = UserController;

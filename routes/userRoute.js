@@ -19,4 +19,7 @@ router.post('/signup', UserController.Signup);
 router.post('/signin', UserController.Signin);
 
 router.put('/edit/:id', Auth.IsAuthorized, UserController.Edit);
+
+router.delete('/delete/:id', Auth.IsAuthorized, UserController.Delete);
+
 module.exports = router;
