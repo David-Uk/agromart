@@ -2,6 +2,14 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+const Auth = require('../helpers/authenticated');
+const UserController = require('../controllers/userController');
+
+dotenv.config();
+
+const { SECRET } = process.env;
 
 const router = express.Router();
 const User = require('../models/user');
@@ -33,13 +41,13 @@ router.post('/signin', (req, res) => {
         const decrypted = bcrypt.compareSync(password, user.hash_password);
         if (!decrypted) return res.status(400).json({ message: 'Invalid password' });
         const {
-          firstName, lastName, role, fullName,
+          _id, firstName, lastName, role, fullName,
         } = user;
-        const token = jwt.sign({ _id: user._id }, 'HELLO', { expiresIn: '24h' });
+        const token = jwt.sign({ _id: user._id }, SECRET, { expiresIn: '24h' });
         return res.status(201).json({
           message: 'Logged in successfully',
           details: {
-            firstName, lastName, email, role, fullName,
+            _id, firstName, lastName, email, role, fullName,
           },
           token,
         });
@@ -52,4 +60,5 @@ router.get('/all', (req, res) => {
     .then((user) => res.status(200).json(user))
     .catch((err) => console.log(err));
 });
+router.put('/edit/:id', Auth.IsAuthorized, UserController.Edit);
 module.exports = router;
