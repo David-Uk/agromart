@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -5,6 +6,7 @@ const mongoose = require('mongoose');
 
 const userRoute = require('./routes/userRoute');
 const adminRoute = require('./routes/adminRoute');
+const categoryRoute = require('./routes/categoryRoute');
 
 dotenv.config();
 
@@ -20,6 +22,7 @@ app.use(cors());
 
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/admin', adminRoute);
+app.use('/api/v1/category', categoryRoute);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

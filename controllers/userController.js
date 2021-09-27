@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable consistent-return */
+/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -38,7 +41,7 @@ class UserController {
             _id, firstName, lastName, role, fullName, username,
           } = user;
           const { SECRET } = process.env;
-          const token = jwt.sign({ _id: user._id }, SECRET, { expiresIn: '24h' });
+          const token = jwt.sign({ _id: user._id, role }, SECRET, { expiresIn: '24h' });
           return res.status(201).json({
             message: 'Logged in successfully',
             details: {

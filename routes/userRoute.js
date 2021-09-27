@@ -1,12 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 const express = require('express');
-const dotenv = require('dotenv');
 
 const Auth = require('../helpers/authenticated');
 const { validateSignupRequest, isRequestValidated, validateSigninRequest } = require('../validators/auth');
 const UserController = require('../controllers/userController');
-
-dotenv.config();
 
 const router = express.Router();
 

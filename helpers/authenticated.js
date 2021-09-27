@@ -6,7 +6,7 @@ dotenv.config();
 
 class Auth {
   static async IsAuthorized(req, res, next) {
-    const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization.split(' ')[1];
+    const token = req.body.token || req.query.token || req.headers['x-access-token'] || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
 
     if (!token) {
       return res.status(403).send('A token is required for authentication');
