@@ -1,25 +1,21 @@
 /* eslint-disable no-underscore-dangle */
 const express = require('express');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
 const Auth = require('../helpers/authenticated');
+const { validateSignupRequest, isRequestValidated, validateSigninRequest } = require('../validators/auth');
 const UserController = require('../controllers/userController');
 
 dotenv.config();
 
-const { SECRET } = process.env;
-
 const router = express.Router();
-const User = require('../models/user');
 
-router.post('/signup', UserController.Signup);
+router.post('/signup', validateSignupRequest, isRequestValidated, UserController.Signup);
 
-router.post('/signin', UserController.Signin);
+router.post('/signin', validateSigninRequest, isRequestValidated, UserController.Signin);
 
-router.put('/edit/:id', Auth.IsAuthorized, UserController.Edit);
+router.put('/edit/:id', Auth.IsAuthorized, isRequestValidated, UserController.Edit);
 
-router.delete('/delete/:id', Auth.IsAuthorized, UserController.Delete);
+router.delete('/delete/:id', Auth.IsAuthorized, isRequestValidated, UserController.Delete);
 
 module.exports = router;
