@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const userRoute = require('./routes/userRoute');
 const adminRoute = require('./routes/adminRoute');
 const categoryRoute = require('./routes/categoryRoute');
+const productRoute = require('./routes/productRoute');
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(cors());
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/admin', adminRoute);
 app.use('/api/v1/category', categoryRoute);
+app.use('/api/v1/products', productRoute);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
